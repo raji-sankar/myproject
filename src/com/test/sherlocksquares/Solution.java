@@ -37,20 +37,27 @@ public class Solution {
     public static boolean digitalRoot(long a){
         char[] charArr = String.valueOf(a).toCharArray();
         int sum = 0;
-        for (int i = 0; i < charArr.length; i++){
-            sum +=   Character.digit(charArr[i], 10);
+        for (char aCharArr : charArr) {
+            sum += Character.digit(aCharArr, 10);
         }
         if (sum > 9)
             return digitalRoot((long)sum);
 
-        if ((sum == 1) || (sum == 4) || (sum == 9) || (sum == 7))
-            return true;
+        return (sum == 1) || (sum == 4) || (sum == 9) || (sum == 7);
 
-        return false;
     }
 
     /**
-     * Given a long a, returns whether it is a perfect square
+     * Given a long a, returns whether it is possible candidate for a perfect square
+     * To determine whether a number is a square -
+     * http://burningmath.blogspot.com/2013/09/how-to-check-if-number-is-perfect-square.html
+     *  a number cannot be an exact or perfect square if
+     *        it ends in 2, 3,7 or 8
+     *        it terminates in an odd number of zeros
+     *        its last digit is 6 but its penultimate (tens) digit is even
+     *        its last digit is not 6 but its penultimate (tens) digit is odd
+     *        its last digit is 5 but its penultimate (tens) digit is other than 2
+     *        its last 2 digits are not divisible by 4 if it is even number
      * @param a
      * @return
      */
