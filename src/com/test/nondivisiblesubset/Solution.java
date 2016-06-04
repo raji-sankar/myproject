@@ -1,62 +1,77 @@
 package com.test.nondivisiblesubset;
 
-import java.util.Arrays;
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.Scanner;
 
 /**
- * Created by Raji on 5/29/2016.
+ * Created by Raji on 6/4/2016.
+ * Non-Divisible Subset
+ * Given a set,S , of n  integers, print the size of a maximal subset, S+, of S where the sum of any  numbers in  are not evenly divisible by k.
+
+ Input Format
+
+ The first line contains 2 space-separated integers, n and k, respectively.
+ The second line contains n space-separated integers (we'll refer to the ith value as ai) describing the unique values of the set.
+
+ Constraints
+ 1 <= n <= 10e5
+ 1 <= k <= 100
+ 1 <= ai <= 10e9
+
+ All of the given numbers are distinct.
+ Output Format
+
+ Print the size of the largest possible subset (S+).
  */
 public class Solution {
 
-    public static int nonDivisibleSubset(int n, int k, int[] a){
-        //largest subset has n-1 elements
+    private static int nonDivisibleSubset(int n, int k, int[] a) {
 
-        boolean[] in_subset = new boolean[n];
-        for (int i=0; i < n; i++){
-            Arrays.fill(in_subset, true);
-            in_subset[i] = false;
-            int[] subset = new int[n-1];
-            int j = 0;
-            int m = 0;
-            while(j < n){
-                if (in_subset[j]) {
-                    subset[m] = a[j];
-                    m++;
-                    j++;
-                } else {
-                    j++;
-                }
+        int num = 0;
 
-            }
-            if (checkSubsetNonDivisible(subset.length, k, subset)){
-                return subset.length;
-            }
+        boolean isEven = (k % 2 == 0);
+
+        int[] remainder = new int[k];
+
+        for(int i = 0; i < n; i++){
+            int p = a[i] % k;
+            remainder[p] += 1;
         }
-        return 0;
-    }
 
-    public static boolean checkSubsetNonDivisible(int n, int k, int[] a){
-        for (int i=0; i < n; i++){
-            for(int j= i+1; j < n; j++ ){
-                if ((a[i] + a[j]) % k == 0)
-                    return false;
-            }
+        int m = isEven ? k/2 : (k+1)/2;
+        num += remainder[0] > 0 ? 1 : 0;
+        if (isEven){
+            num += remainder[m] > 0 ? 1 : 0;
         }
-        return true;
+        for(int i = 1; i < m; i++){
+            num += Math.max(remainder[i], remainder[k-i]);
+        }
+        return num;
     }
-
-
 
     public static void main(String[] args) {
-        Scanner in = new Scanner(System.in);
-        int n = in.nextInt();
-        int k = in.nextInt();
-        int[] a = new int[n];
-        for (int i=0; i <n; i++){
-            a[i] = in.nextInt();
+        try {
+            Scanner in;
+            if (args!=null && args.length>0 && args[0].equals("-d")){
+
+                in = new Scanner(new File(args[1]));
+
+            } else {
+                in = new Scanner(System.in);
+            }
+            int n = in.nextInt();
+            int k = in.nextInt();
+            int[] a = new int[n];
+            for (int i=0; i <n; i++){
+                a[i] = in.nextInt();
+            }
+            System.out.println(nonDivisibleSubset(n, k, a));
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
         }
-        System.out.println(nonDivisibleSubset(n, k, a));
 
     }
+
 
 }
