@@ -6,6 +6,19 @@ import java.util.Random;
 
 public class MyMap {
 
+    /*
+    How does a HashMap work?
+    A HashMap is an implementation of Map interface which maps an Object to a key.
+
+    Internally a HashMap stores an array of Node<K,V> objects. Node<K,V> implements Map.Entry<K,V> interface
+
+    The Node<K,V> class in a HashMap is a linked list. In addition to key and value, the Node object
+    has a hash and next - pointer to the next item that shares the same hash.
+
+    hash value is computed by key.hashCode and (XORs) higher bits of hash to lower. For example if you
+    add key = Integer(1) and key = Integer(65536), they will get the same hash.
+     */
+
     public static void main(String[] args) {
         Map<Integer, String> map = new HashMap<>();
 
