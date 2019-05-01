@@ -1,6 +1,6 @@
 package com.test.interfaces;
 
-import com.intellij.profile.codeInspection.ui.AdvancedSettingsAction;
+
 
 /**
  * Created by Raji on 4/9/2016.

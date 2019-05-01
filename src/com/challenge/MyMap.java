@@ -1,15 +1,17 @@
 package com.challenge;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Random;
+import java.util.*;
 
 public class MyMap {
 
     /*
     How does a HashMap work?
     A HashMap is an implementation of Map interface which maps an Object to a key.
-
+    Can be created with initial capacity and loadFactor
+    default initial capacity is 16 and load factor 0.75
+    The underlying Map.Entry array doubles each time the size reaches the threshold for the load factor
+    This map usually acts as a binned (bucketed) hash table,
+    when bins get too large, they are transformed into bins of TreeNodes
     Internally a HashMap stores an array of Node<K,V> objects. Node<K,V> implements Map.Entry<K,V> interface
 
     The Node<K,V> class in a HashMap is a linked list. In addition to key and value, the Node object
@@ -19,7 +21,7 @@ public class MyMap {
     add key = Integer(1) and key = Integer(65536), they will get the same hash.
      */
 
-    public static void main(String[] args) {
+    public static void hashMap() {
         Map<Integer, String> map = new HashMap<>();
 
         map.put(1, "First");
@@ -50,7 +52,40 @@ public class MyMap {
         System.out.println(val);
     }
 
+    public static void linkedHashMap(){
+        Map<Integer, String> map = new LinkedHashMap<>();
+        map.put(1, "First");
+        map.put(65536, "same has as first");
+        map.put(2000000, "Second");
+        map.put(3000, "Third");
+
+        for (Integer key: map.keySet() ) {
+            System.out.println("Key = " + key + ", Value = " + map.getOrDefault(key, ""))  ;
+        }
 
 
+    }
+
+    public static void treeMap(){
+        Map<Integer, String> map = new TreeMap<>();
+        map.put(1, "First");
+        map.put(65536, "same has as first");
+        map.put(2000000, "Second");
+        map.put(3000, "Third");
+
+        for (Integer key: map.keySet() ) {
+            System.out.println("Key = " + key + ", Value = " + map.getOrDefault(key, ""))  ;
+        }
+
+
+    }
+
+
+
+    public static void main(String[] args) {
+        hashMap();
+        linkedHashMap();
+        treeMap();
+    }
 
 }
