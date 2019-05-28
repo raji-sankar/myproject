@@ -10,7 +10,7 @@ package com.uber.longestenvelopesequence;
 // An envelope fits inside another if both side lengths are strictly less.
 //
 // Ex.
-// Input =  { {1000,1}, {2,2}, {10,10}, {1,2}, {10,8}, {9,9}, {20,20}, {3,8}, {6,1}, {7, 2}, {1,1}, {3,4}, {20,20} }
+// Input =  { {2,2}, {10,10}, {1,2}, {10,8}, {9,9}, {20,20}, {3,8}, {6,1}, {7, 2}, {1,1}, {3,4}, {20,20} }
 // Return: { {10,10}, {9,9}, {3,8}, {7,2}, {1,1} }
 
 // 10,10 -> 1,2
@@ -38,6 +38,8 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 public class Solution {
+
+    static List<Node> answer = new ArrayList<>();
 
     static class Node{
         int x, y;
@@ -101,36 +103,52 @@ public class Solution {
             return edg;
         }
 
-        List<List<Node>> findPath(Node node){
-            List<List<Node>> paths = new ArrayList<>();
-
-            for(Edge edge: getEdges(node)){
-                List<Node> path = new ArrayList<>();
-
-                paths.add(path);
-            }
-            return paths;
-        }
-
-        void dfs(Node node, List<Node> path){
 
 
-        }
     }
 
     public static boolean canFit(int[] a, int[] b){
         return Math.max(b[0], b[1]) < Math.max(a[0], a[1]) && Math.min(b[0], b[1]) < Math.min(a[0], a[1]);
     }
 
+    public static void dfs(Graph graph, Node node, List<Node> path){
+        if(node == null){
+            return;
+        }
+        path.add(node);
+        if (graph.getEdges(node).size() == 0){
+            //this is a leaf node
+            isASolution(path);
+        }
+
+        for(Edge edge: graph.getEdges(node)){
+            dfs(graph, edge.node2, path);
+        }
+        path.remove(path.size() -1);
+    }
+
+    private static void isASolution(List<Node> path) {
+        if(path.size() > answer.size()){
+
+            //deep copy
+            answer = new ArrayList<>();
+            answer.addAll(path);
+        }
+    }
 
 
     public static int[][] biggestEnvelopeSequence(int[][] input){
-        List<List<int[]>> outputs = new ArrayList<>();
-        for (int i=0; i<input.length; i++){
-            List<int[]> outputList = new ArrayList<>();
-            outputList.add(input[i]);
-            envelopeSequence(input, input[i], i+1, outputList);
-            outputs.add(outputList);
+
+
+        Graph graph = new Graph(input);
+        for (Node node: graph.orderedNodes)
+            dfs(graph, node, new ArrayList<>());
+        List<Node> ans = answer;
+        List<int[]> outputList = new ArrayList<>();
+        for (int i=0; i<ans.size(); i++){
+            Node node = ans.get(i);
+            int[] nodexy = {node.x, node.y};
+            outputList.add(nodexy);
         }
 
 
@@ -138,26 +156,7 @@ public class Solution {
         return input;
     }
 
-    private static void envelopeSequence(int[][] input, int[] prev, int currentPosition, List<int[]> outputList) {
-        if(currentPosition == input.length){
-            return;
-        }
 
-        if(canFit(prev, input[currentPosition])){
-            outputList.add(input[currentPosition]);
-            envelopeSequence(input, input[currentPosition], currentPosition+1, outputList);
-        }
-        List<int[]> newoutputList = new ArrayList<>();
-        newoutputList.add(prev);
-        envelopeSequence(input, prev, currentPosition+1, newoutputList);
-
-        if (newoutputList.size()> outputList.size()){
-            outputList = newoutputList;
-        }
-
-
-
-    }
 
     public static void main(String args[] ) throws Exception {
         // { {2,2}, {10,10}, {1,2}, {10,8}, {9,9}, {20,20}, {3,8}, {6,1}, {7, 2}, {1,1}, {3,4}, {20,20} };
