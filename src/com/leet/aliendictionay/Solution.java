@@ -216,7 +216,7 @@ public class Solution {
         edges.addAll(edgesSet);
         graph.setEdges(edges);
 
-        Node startingNode = new Node(String.valueOf(words.get(0).charAt(0)));
+
         List<Node> topSort =  graph.topologicalSort();
         return topSort.stream().map(node -> node.getData()).collect(Collectors.joining(""));
     }
@@ -231,6 +231,12 @@ public class Solution {
         words.add("rftt");
 
         System.out.println(alienDictionary(words));
+
+        String[] words2 =  {"baa", "abcd", "abca", "cab", "cad"};
+        System.out.println(alienDictionary(Arrays.asList(words2)));
+
+        String[] words3 = {"caa", "aaa", "aab"};
+        System.out.println(alienDictionary(Arrays.asList(words3)));
 
     }
 }
