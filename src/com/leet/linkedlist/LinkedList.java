@@ -46,6 +46,8 @@ public class LinkedList {
         return new LinkedList(newCurrent);
     }
 
+
+
     public int midPointIndex(){
         Node runner1 = head;
         Node runner2 = head;
