@@ -99,7 +99,7 @@ public class Meeting {
         return meetings;
     }
 
-    private static void mergeMeetingsAndPint(List<Meeting> meetings){
+    private static void mergeMeetingsAndPrint(List<Meeting> meetings){
         List<Meeting> merged = mergeMeetings(meetings);
         for (Meeting meeting : merged){
             System.out.println(meeting);
@@ -112,21 +112,21 @@ public class Meeting {
         int[] meetingtimes = {0,1,3,5,4,8,10,12,9,10};
         List<Meeting> meetings = createMeetingList(meetingtimes);
 
-        mergeMeetingsAndPint(meetings);
+        mergeMeetingsAndPrint(meetings);
 
 
         int[] meetingtimes2 = {1, 2, 2, 3};
         meetings = createMeetingList(meetingtimes2);
-        mergeMeetingsAndPint(meetings);
+        mergeMeetingsAndPrint(meetings);
 
         int[] meetingtimes3 = {1,5, 2,3};
         meetings = createMeetingList(meetingtimes3);
-        mergeMeetingsAndPint(meetings);
+        mergeMeetingsAndPrint(meetings);
 
 //        Meeting(1, 10), Meeting(2, 6), Meeting(3, 5), Meeting(7, 9)
         int[] meetingTimes4 = {1, 10, 2, 6, 3, 5, 7 , 9};
         meetings = createMeetingList(meetingTimes4);
-        mergeMeetingsAndPint(meetings);
+        mergeMeetingsAndPrint(meetings);
 
     }
 }
