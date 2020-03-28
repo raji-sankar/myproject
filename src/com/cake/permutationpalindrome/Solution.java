@@ -5,8 +5,8 @@ import org.junit.runner.JUnitCore;
 import org.junit.runner.Result;
 import org.junit.runner.notification.Failure;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.HashSet;
+import java.util.Set;
 
 import static org.junit.Assert.*;
 
@@ -14,24 +14,16 @@ public class Solution {
 
     public static boolean hasPalindromePermutation(String theString) {
 
-        // check if any permutation of the input is a palindrome
-        Map<Character, Integer> charMap = new HashMap<>();
-        for(char c : theString.toCharArray()){
-            if(charMap.computeIfPresent(c, (k, v) -> v+1) == null)
-                charMap.put(c, 1);
+        Set<Character> unpairedChar = new HashSet<>();
+        for(char c: theString.toCharArray()){
+            if(unpairedChar.contains(c)){
+                unpairedChar.remove(c);
+            }else {
+                unpairedChar.add(c);
+            }
         }
-
-        int countOdd = 0;
-        for(char key: charMap.keySet()){
-            if(charMap.get(key) %2 == 1)
-                countOdd++;
-        }
-
-        return countOdd < 2 ? true : false;
+        return unpairedChar.size() < 2 ? true : false;
     }
-
-
-
 
 
 
