@@ -6,7 +6,9 @@ import org.junit.runner.Result;
 import org.junit.runner.notification.Failure;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 import static org.junit.Assert.*;
 
@@ -14,23 +16,14 @@ public class Solution {
 
     public static boolean canTwoMoviesFillFlight(int[] movieLengths, int flightLength) {
 
-        // determine if two movies add up to the flight length
-        Map<Integer, Integer> movies = new HashMap<>();
-        for (int length : movieLengths) {
-            if (movies.computeIfPresent(length, (k, v) -> v + 1) == null) {
-                movies.put(length, 1);
-            }
-        }
+        Set<Integer> movies = new HashSet<>();
 
-        for (int key : movies.keySet()) {
-            if (key < flightLength) {
-                int remaining = flightLength - key;
-                if (key == remaining) {
-                    if (movies.get(key) > 1)
-                        return true;
-                } else if (movies.getOrDefault(remaining, 0) > 0)
-                    return true;
+        for(int movie : movieLengths){
+            int remaining = flightLength - movie;
+            if (movies.contains(remaining)){
+                return true;
             }
+            movies.add(movie);
         }
 
 
