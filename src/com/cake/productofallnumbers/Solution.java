@@ -17,19 +17,18 @@ public class Solution {
             throw new IllegalArgumentException("Array size has to be at least 2");
         }
         int[] result = new int[n];
-        int[] productOnLeft = new int[n];
-        int[] productOnRight = new int[n];
-        productOnLeft[0] = 1;
-        productOnRight[n-1] = 1;
+        int productSoFar = 1;
+        result[0] = 1;
+
         for(int i=1; i < n; i++){
-            productOnLeft[i] = productOnLeft[i-1] * intArray[i-1];
-        }
-        for(int i=n-2; i>= 0; i--){
-            productOnRight[i] = productOnRight[i+1] * intArray[i+1];
+            productSoFar = productSoFar * intArray[i-1];
+            result[i] = productSoFar;
         }
 
-        for(int i=0; i < n; i++){
-            result[i] = productOnLeft[i] * productOnRight[i];
+        productSoFar = 1;
+        for(int i=n-2; i>= 0; i--){
+            productSoFar = productSoFar * intArray[i+1] ;
+            result[i] = productSoFar * result[i];
         }
 
         return result;
