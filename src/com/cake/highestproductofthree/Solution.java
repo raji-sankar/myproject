@@ -23,13 +23,10 @@ public class Solution {
         int highestProductOf3 = intArray[0] * intArray[1] * intArray[2];
         for(int i=2; i <intArray.length; i++){
             highestProductOf3 = Math.max(highestProductOf3, Math.max(highestProductOf2 * intArray[i], lowestProductOf2 * intArray[i]));
-            if(highest < 0 && lowest < 0) {
-                highestProductOf2 = Math.min(highest * intArray[i], highestProductOf2);
-                lowestProductOf2 = Math.max(lowest * intArray[i], lowestProductOf2);
-            } else {
-                highestProductOf2 = Math.max(highest * intArray[i], highestProductOf2);
-                lowestProductOf2 = Math.min(lowest * intArray[i], lowestProductOf2);
-            }
+
+            highestProductOf2 = Math.max(Math.max(highest * intArray[i], lowest * intArray[i]), highestProductOf2);
+            lowestProductOf2 = Math.min(Math.max(lowest * intArray[i], highest * intArray[i]), lowestProductOf2);
+
             lowest = Math.min(intArray[i], lowest);
             highest = Math.max(intArray[i], highest);
         }
