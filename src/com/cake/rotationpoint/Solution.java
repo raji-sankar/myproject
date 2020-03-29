@@ -12,27 +12,32 @@ public class Solution {
     public static int findRotationPoint(String[] words) {
 
         // find the rotation point in the array
-        int rotationPoint = 0;
+
 
         //check if already sorted
         if(words[0].compareTo(words[words.length -1]) < 0){
             return 0;
         }
 
-        int floor = -1;
-        int ceiling = words.length + 1;
+        int floor = 0;
+        int ceiling = words.length - 1;
 
-        while(floor + 1 < ceiling){
+        while(floor  < ceiling){
             int midPoint = (floor + ceiling)/2;
-            if(words[midPoint - 1].compareTo(words[midPoint])> 0){
-                return midPoint;
+            if(words[midPoint].compareTo(words[floor])>= 0){
+                floor = midPoint;
             } else {
-                floor = midPoint -1;
+                ceiling = midPoint ;
+            }
+
+            if(floor + 1 == ceiling){
+                break;
             }
         }
 
 
-        return rotationPoint;
+
+        return ceiling;
     }
 
     public static int findRotationPoint(int[] nums){
