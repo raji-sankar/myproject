@@ -1,6 +1,7 @@
 package com.cake.stringpermutation;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Set;
 import java.util.HashSet;
 
@@ -15,11 +16,13 @@ public class Solution {
 
     public static Set<String> getPermutations(String inputString) {
 
+        // base case
+        if (inputString.length() <= 1) {
+            return new HashSet<>(Collections.singletonList(inputString));
+        }
+
         Set<String> permutations = new HashSet<>();
 
-        if(inputString.length() == 0){
-            return permutations;
-        }
         // generate all permutations of the input string
 
         char[] chars = inputString.toCharArray();
