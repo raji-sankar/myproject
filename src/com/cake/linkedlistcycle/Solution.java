@@ -24,19 +24,22 @@ public class Solution {
 
     public static boolean containsCycle(LinkedListNode firstNode) {
 
-        // check if the linked list contains a cycle
-        Set<LinkedListNode> seenNodes = new HashSet<>();
-        LinkedListNode currentNode = firstNode;
+        // start both runners at the beginning
+        LinkedListNode slowRunner = firstNode;
+        LinkedListNode fastRunner = firstNode;
 
-        while(currentNode != null){
-            if(seenNodes.contains(currentNode)){
+        // until we hit the end of the list
+        while (fastRunner != null && fastRunner.next != null) {
+            slowRunner = slowRunner.next;
+            fastRunner = fastRunner.next.next;
+
+            // case: fastRunner is about to "lap" slowRunner
+            if (fastRunner == slowRunner) {
                 return true;
             }
-            seenNodes.add(currentNode);
-            currentNode = currentNode.next;
         }
 
-
+        // case: fastRunner hit the end of the list
         return false;
     }
 
