@@ -16,17 +16,22 @@ public class Solution {
 
         // find the one unique ID in the array
         //create a set of unique ids, when the same one shows up remove it
-        Set<Integer> unique = new HashSet<>();
+        //O(n) time and O(n) space
+//        Set<Integer> unique = new HashSet<>();
+//        for(int deliveryId : deliveryIds){
+//            if(unique.contains(deliveryId)){
+//                unique.remove(deliveryId);
+//            }else {
+//                unique.add(deliveryId);
+//            }
+//        }
+//        return unique.iterator().next();
+        int uniqueId = 0;
         for(int deliveryId : deliveryIds){
-            if(unique.contains(deliveryId)){
-                unique.remove(deliveryId);
-            }else {
-                unique.add(deliveryId);
-            }
+            uniqueId ^= deliveryId;
         }
 
-
-        return unique.iterator().next();
+        return uniqueId;
     }
 
 
