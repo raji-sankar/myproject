@@ -17,43 +17,36 @@ public class Solution {
 
     public static class MaxStack {
         private Stack<Integer> stack;
+        private Stack<Integer> maxStack;
 
-        private int max;
+
 
         public MaxStack(){
             stack = new Stack<>();
+            maxStack = new Stack<>();
         }
 
         public void push(int item) {
-            max = Math.max(max, item);
             stack.push(item);
+            if(maxStack.empty() || item >= maxStack.peek()){
+                maxStack.push(item);
+            }
         }
 
         public int pop() {
-            int popped = stack.pop();
-            if(popped == max){
-                recalculateMax();
+            int item = stack.pop();
+            if(item == maxStack.peek()){
+                maxStack.pop();
             }
-            return popped;
+            return item;
         }
 
         public int getMax() {
 
-            return max;
+            return maxStack.peek();
         }
 
-        private void recalculateMax(){
-            Stack<Integer> temp = new Stack<>();
-            max = 0;
-            while(!stack.empty()){
-                int x = stack.pop();
-                max = Math.max(max, x);
-                temp.push(x);
-            }
-            while(!temp.empty()){
-                stack.push(temp.pop());
-            }
-        }
+
     }
 
 
