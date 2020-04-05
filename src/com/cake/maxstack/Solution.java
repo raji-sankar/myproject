@@ -18,21 +18,33 @@ public class Solution {
     public static class MaxStack {
         private Stack<Integer> stack;
 
+        private int max;
+
         public MaxStack(){
             stack = new Stack<>();
         }
 
         public void push(int item) {
+            max = Math.max(max, item);
             stack.push(item);
         }
 
         public int pop() {
-            return stack.pop();
+            int popped = stack.pop();
+            if(popped == max){
+                recalculateMax();
+            }
+            return popped;
         }
 
         public int getMax() {
-            int max = 0;
+
+            return max;
+        }
+
+        private void recalculateMax(){
             Stack<Integer> temp = new Stack<>();
+            max = 0;
             while(!stack.empty()){
                 int x = stack.pop();
                 max = Math.max(max, x);
@@ -41,7 +53,6 @@ public class Solution {
             while(!temp.empty()){
                 stack.push(temp.pop());
             }
-            return max;
         }
     }
 
