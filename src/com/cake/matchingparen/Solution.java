@@ -1,9 +1,5 @@
 package com.cake.matchingparen;
 
-import java.util.Deque;
-import java.util.ArrayDeque;
-import java.util.Map;
-import java.util.HashMap;
 
 import org.junit.Test;
 import org.junit.runner.JUnitCore;
@@ -17,20 +13,20 @@ public class Solution {
     public static int getClosingParen(String sentence, int openingParenIndex) {
 
         // find the position of the matching closing parenthesis
-        // this solution is O(n) in terms of time and O(n) in space for the stack and map
-        Deque<Integer> paren = new ArrayDeque<>();
-        Map<Integer,Integer> parenMap = new HashMap<>();
-
-        for(int i=0; i < sentence.length(); i++ ){
+        // find the position of the matching closing parenthesis
+        int openNestedParens = 0;
+        for(int i = openingParenIndex+1; i< sentence.length(); i++){
             if(sentence.charAt(i) == '('){
-                paren.push(i);
-            } else if(sentence.charAt(i) == ')'){
-                parenMap.put(paren.pop(), i);
+                openNestedParens++;
+            }else if(sentence.charAt(i) == ')'){
+                if(openNestedParens == 0){
+                    return i;
+                }else {
+                    openNestedParens--;
+                }
             }
         }
-
-
-        return parenMap.get(openingParenIndex);
+        throw new IllegalArgumentException("No closing parentheis :(");
     }
 
 
