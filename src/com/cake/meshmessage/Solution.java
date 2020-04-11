@@ -4,6 +4,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Set;
+import java.util.HashSet;
 import java.util.Deque;
 import java.util.ArrayDeque;
 
@@ -20,39 +22,35 @@ public class Solution {
 
         // find the shortest route in the network between the two users
         // bfs to find the shortest path
-        //Initialize array boolean array of nodes - seen
+        //use a Set to keep track of nodes visited
 
         if(graph.get(startNode) == null || graph.get(endNode) == null){
             throw new IllegalArgumentException("Start/end node is not valid");
         }
-        boolean foundPath = false;
+
         List<String> path = new ArrayList<>();
-        Map<String, Boolean> seen = new HashMap<>();
+        Set<String> seen = new HashSet<>();
         Map<String, String> parents = new HashMap<>();
-        seen.put(startNode, true);
+        seen.add(startNode);
         Deque<String> queue = new ArrayDeque<>();
         queue.push(startNode);
         while(!queue.isEmpty()){
             String v = queue.pop();
             if(v.equals(endNode)){
-                foundPath = true;
+                findPath(startNode, endNode, parents, path);
+                return path.toArray(new String[0]);
             }
             for(String u : graph.get(v)){
-                if(!seen.getOrDefault(u, false)){
+                if(!seen.contains(u)){
                     queue.push(u);
-                    seen.put(u, true);
+                    seen.add(u);
                     parents.put(u, v);
                 }
             }
         }
 
+        return null;
 
-        if(foundPath) {
-            findPath(startNode, endNode, parents, path);
-            return path.toArray(new String[0]);
-        } else {
-            return null;
-        }
     }
 
     private static void findPath(String startNode, String endNode, Map<String, String> parents, List<String> path){
