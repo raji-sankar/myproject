@@ -1,14 +1,14 @@
 package com.cake.binarytree;
 
+import java.util.Set;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.HashMap;
+
 import org.junit.Test;
 import org.junit.runner.JUnitCore;
 import org.junit.runner.Result;
 import org.junit.runner.notification.Failure;
-
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Queue;
-import java.util.Stack;
 
 import static org.junit.Assert.*;
 
@@ -33,47 +33,46 @@ public class Solution {
             this.right = new BinaryTreeNode(rightValue);
             return this.right;
         }
-
-        public boolean isLeaf(){
-            return (left == null && right == null);
-        }
-
-        @Override
-        public String toString() {
-            return "TreeNode " + value + " :" + (left == null ? " ;" : left )+ ( right == null ? " ;" : right.toString() ) ;
-        }
     }
 
     public static boolean isBalanced(BinaryTreeNode treeRoot) {
 
         // determine if the tree is superbalanced
-        //use dfs to find graph depth
-        Map<BinaryTreeNode, Boolean> visited = new HashMap<>();
-        Stack<BinaryTreeNode> stack = new Stack<>();
-        stack.push(treeRoot);
-        int count = 0;
-        while (!stack.empty()){
-            BinaryTreeNode current = stack.pop();
-            if(visited.getOrDefault(current, false))
-                visited.put(current, true);
-            System.out.println(current.toString());
-            count++;
-            if (current.isLeaf()){
-                System.out.println("Depth " + count);
-                count = 0;
-            }
-            if(current.left != null )
-                stack.push(current.left);
-            if(current.right != null)
-                stack.push(current.right);
+        Set<BinaryTreeNode> nodes = new HashSet<>();
+        Map<BinaryTreeNode,Integer> depth = new HashMap<>();
+        Set<BinaryTreeNode> leafNodes = new HashSet<>();
+        nodes.add(treeRoot);
+        depth.put(treeRoot, 0);
+        dfs(treeRoot, nodes, depth, leafNodes);
+
+
+        int minDepth = Integer.MAX_VALUE;
+        int maxDepth = Integer.MIN_VALUE;
+        for(BinaryTreeNode leaf: leafNodes){
+            minDepth = Math.min(minDepth, depth.get(leaf));
+            maxDepth = Math.max(maxDepth, depth.get(leaf));
         }
 
 
-        return false;
+        return maxDepth - minDepth < 2;
     }
 
-
-
+    public static void dfs(BinaryTreeNode treeNode, Set<BinaryTreeNode> seen, Map<BinaryTreeNode,Integer> depth, Set<BinaryTreeNode> leafNodes){
+        int treeNodeDepth = depth.get(treeNode) + 1;
+        if(treeNode.left == null && treeNode.right == null){
+            leafNodes.add(treeNode);
+        }
+        if (treeNode.left != null){
+            seen.add(treeNode.left);
+            depth.put(treeNode.left, treeNodeDepth);
+            dfs(treeNode.left, seen, depth, leafNodes);
+        }
+        if(treeNode.right != null){
+            seen.add(treeNode.right);
+            depth.put(treeNode.right, treeNodeDepth);
+            dfs(treeNode.right, seen, depth, leafNodes);
+        }
+    }
 
 
 
@@ -88,7 +87,6 @@ public class Solution {
         a.insertRight(2);
         b.insertLeft(3);
         b.insertRight(4);
-        System.out.println(root);
         final boolean result = isBalanced(root);
         assertTrue(result);
     }
