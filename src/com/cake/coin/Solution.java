@@ -14,7 +14,17 @@ public class Solution {
 
         // calculate the number of ways to make change
         //assuming denominations is a sorted array
-        return changePossibilitiesTopDown(amount, denominations, 0);
+//        return changePossibilitiesTopDown(amount, denominations, 0);
+        int[] waysOfDoing = new int[amount+1];
+        waysOfDoing[0] = 1;
+
+        for(int coin: denominations){
+            for(int higherAmount = coin; higherAmount <= amount; higherAmount++){
+                int higherAmountRemainder = higherAmount -coin;
+                waysOfDoing[higherAmount] += waysOfDoing[higherAmountRemainder];
+            }
+        }
+        return waysOfDoing[amount];
     }
 
     public static int changePossibilitiesTopDown(int amountLeft, int[] denominations, int currentIndex){
