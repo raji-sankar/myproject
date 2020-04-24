@@ -10,22 +10,18 @@ public class Merge {
         int i = 0;
         int j = 0;
         int k = 0;
+
         while(k < merged.length){
-            if(i < array1.length && j < array2.length) {
-                if(array1[i] <= array2[j]){
-                    merged[k] = array1[i];
-                    i++;
-                } else {
-                    merged[k] = array2[j];
-                    j++;
-                }
-            } else if(i == array1.length && j < array2.length){
-                merged[k] = array2[j];
-                j++;
-            } else if(i < array1.length && j == array2.length){
+            boolean array1Exhausted = i >= array1.length;
+            boolean array2Exhausted = j >= array2.length;
+            if(!array1Exhausted && (array2Exhausted || array1[i] <= array2[j])) {
                 merged[k] = array1[i];
                 i++;
+            } else {
+                merged[k] = array2[j];
+                j++;
             }
+
             k++;
         }
 

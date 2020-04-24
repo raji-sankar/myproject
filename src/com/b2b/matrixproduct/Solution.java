@@ -8,28 +8,64 @@ public class Solution {
         if(matrix.length == 0 || matrix[0].length == 0){
             return 0;
         }
-        int product = matrix[0][0];
-        int i = 0;
-        int j = 0;
 
-        while(i <= matrix.length-1 && j <= matrix[0].length-1){
-            boolean iReached = i == matrix.length -1;
-            boolean jReached = j == matrix[0].length -1;
+        int[][] maxCache = new int[matrix.length][matrix[0].length];
+        int[][] minCache = new int[matrix.length][matrix[0].length];
 
-            if(iReached && jReached){
-                break;
-            }
 
-            if(!jReached && (iReached || product * matrix[i][j+1] >= product * matrix[i+1][j])){
-                product *= matrix[i][j+1];
-                j++;
-            } else {
-                product *= matrix[i+1][j];
-                i++;
+        for (int i=0; i<matrix.length; i++){
+            for(int j=0; j<matrix[0].length; j++){
+                int maxValue = Integer.MIN_VALUE;
+                int minValue = Integer.MAX_VALUE;
+
+                if(i == 0 && j == 0){
+                    maxValue = matrix[i][j];
+                    minValue = matrix[i][j];
+                }
+
+                if(i > 0){
+                    int tempMax = Math.max(matrix[i][j] * maxCache[i-1][j], matrix[i][j] * minCache[i-1][j]);
+                    maxValue = Math.max(maxValue, tempMax);
+                    int tempMin = Math.min(matrix[i][j] * maxCache[i-1][j], matrix[i][j] * minCache[i-1][j]);
+                    minValue = Math.min(minValue, tempMin);
+                }
+
+                if(j > 0){
+                    int tempMax = Math.max(matrix[i][j] * maxCache[i][j-1], matrix[i][j] * minCache[i][j-1]);
+                    maxValue = Math.max(maxValue, tempMax);
+                    int tempMin = Math.min(matrix[i][j] * maxCache[i][j-1], matrix[i][j] * minCache[i][j-1]);
+                    minValue = Math.min(minValue, tempMin);
+                }
+
+                maxCache[i][j] = maxValue;
+                minCache[i][j] = minValue;
+
             }
         }
-
-        return product;
+        return maxCache[matrix.length-1][matrix[0].length -1];
+//        int product = matrix[0][0];
+//        int i = 0;
+//        int j = 0;
+//
+//        while(i <= matrix.length-1 && j <= matrix[0].length-1){
+//            boolean iReached = i == matrix.length -1;
+//            boolean jReached = j == matrix[0].length -1;
+//
+//            if(iReached && jReached){
+//                break;
+//            }
+//
+//            if(!jReached && (iReached || product * matrix[i][j+1] >= product * matrix[i+1][j])){
+//                product *= matrix[i][j+1];
+//                j++;
+//            } else {
+//                product *= matrix[i+1][j];
+//                i++;
+//            }
+//        }
+//
+//        return product;
+//        return 0;
     }
 
     public static void main(String[] args) {
