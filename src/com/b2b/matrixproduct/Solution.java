@@ -43,29 +43,7 @@ public class Solution {
             }
         }
         return maxCache[matrix.length-1][matrix[0].length -1];
-//        int product = matrix[0][0];
-//        int i = 0;
-//        int j = 0;
-//
-//        while(i <= matrix.length-1 && j <= matrix[0].length-1){
-//            boolean iReached = i == matrix.length -1;
-//            boolean jReached = j == matrix[0].length -1;
-//
-//            if(iReached && jReached){
-//                break;
-//            }
-//
-//            if(!jReached && (iReached || product * matrix[i][j+1] >= product * matrix[i+1][j])){
-//                product *= matrix[i][j+1];
-//                j++;
-//            } else {
-//                product *= matrix[i+1][j];
-//                i++;
-//            }
-//        }
-//
-//        return product;
-//        return 0;
+
     }
 
     public static void main(String[] args) {
