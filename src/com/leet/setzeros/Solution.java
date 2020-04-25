@@ -52,6 +52,41 @@ import java.util.*;
 
 public class Solution {
 
+    public void setZeros2(int[][] matrix){
+        for(int i=0; i<matrix.length; i++){
+            for(int j=0; j<matrix[i].length; j++){
+                if (matrix[i][j] == 0){
+                    matrix[i][0] = 0;
+                    matrix[0][j] = 0;
+                }
+            }
+        }
+
+        for(int i = 1; i < matrix.length; i++){
+            if(matrix[i][0] == 0){
+                for(int j = 1; j < matrix[i].length; j++){
+                    matrix[i][j] = 0;
+                }
+            }
+        }
+
+        for(int j = 1; j < matrix[0].length; j++){
+            if(matrix[0][j] == 0){
+                for(int i = 1; i < matrix.length; i++){
+                    matrix[i][j] = 0;
+                }
+            }
+        }
+        if(matrix[0][0] == 0){
+            for(int i=1; i<matrix.length; i++){
+                matrix[i][0] = 0;
+            }
+            for(int j=1; j<matrix[0].length; j++){
+                matrix[0][j] = 0;
+            }
+        }
+    }
+
     public void setZeroes(int[][] matrix) {
         Set<Map.Entry<Integer, Integer>> zeros = new HashSet<>();
 
@@ -111,6 +146,22 @@ public class Solution {
             System.out.println(Arrays.toString(arr2[i]));
         }
         sol.setZeroes(arr2);
+        for (int i=0; i < arr2.length; i++) {
+            System.out.println(Arrays.toString(arr2[i]));
+        }
+
+        arr[0] = new int[]{1,1,1};
+        arr[1] = new int[]{1,0,1};
+        arr[2] = new int[]{1,1,1};
+        sol.setZeros2(arr);
+        for (int i=0; i < arr.length; i++) {
+            System.out.println(Arrays.toString(arr[i]));
+        }
+
+        arr2[0] = new int[]{0,1,2,0};
+        arr2[1] = new int[]{3,4,5,2};
+        arr2[2] = new int[]{1,3,1,5};
+        sol.setZeros2(arr2);
         for (int i=0; i < arr2.length; i++) {
             System.out.println(Arrays.toString(arr2[i]));
         }
