@@ -14,5 +14,7 @@ public class MyObj {
         System.out.println(map);
 
         System.out.println(map.get(3));
+
+
     }
 }

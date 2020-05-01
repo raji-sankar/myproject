@@ -53,7 +53,7 @@ public class Subset {
 
     public static void main(String[] args) {
         Subset sub = new Subset();
-        sub.generate_subset(3);
+        sub.generate_subset(4);
 
     }
 
