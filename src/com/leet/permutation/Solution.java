@@ -87,7 +87,7 @@ public class Solution {
         List<List<Integer>> result = permutations(nums);
         result.forEach(System.out::println);
 
-        List<String> stringPerms = stringPermutations("ABC");
-        stringPerms.forEach(System.out::println);
+//        List<String> stringPerms = stringPermutations("ABC");
+//        stringPerms.forEach(System.out::println);
     }
 }

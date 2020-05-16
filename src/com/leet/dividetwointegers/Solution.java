@@ -39,7 +39,7 @@ public class Solution {
         }
 
 
-        boolean negative = !((dividend > 0 && divisor > 0) ||(dividend < 0 && divisor < 0));
+        boolean negative = (dividend < 0) ^ (divisor < 0);
 
         if(Math.abs(divisor) == 1){
             return negative ? 0 - Math.abs(dividend) : Math.abs(dividend);
