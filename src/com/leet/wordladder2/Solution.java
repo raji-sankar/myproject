@@ -1,8 +1,7 @@
 package com.leet.wordladder2;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
+import java.util.concurrent.CopyOnWriteArraySet;
 import java.util.stream.Collectors;
 
 /**
@@ -114,6 +113,52 @@ public class Solution {
         return count;
     }
 
+    public List<List<String>> findLadders2(String beginWord, String endWord, List<String> wordList){
+        Set<String> set = new HashSet<>(wordList);
+        List<List<String>> result = new ArrayList<>();
+
+        Queue<List<String>> queue = new LinkedList<>();
+        queue.add(Arrays.asList(beginWord));
+
+        int level = 1, finalLevel = Integer.MAX_VALUE;
+        List<String> words = new ArrayList<>();
+        while (!queue.isEmpty()) {
+            List<String> list = queue.poll();
+
+            if (list.size() > level) { // meaning: new word was added to list
+                set.removeAll(words);
+                words.clear();
+                level = list.size();
+                if (level > finalLevel) break;
+            }
+
+            String str = list.get(level - 1);
+            char[] arr = str.toCharArray();
+            for (int i = 0; i < arr.length; i++) {
+                char original = arr[i];
+                for (char ch = 'a'; ch <= 'z'; ch++) {
+                    if (ch == original) continue;
+                    arr[i] = ch;
+                    String newStr = String.valueOf(arr);
+
+                    if (set.contains(newStr)) {
+                        words.add(newStr);
+                        List<String> newList = new ArrayList<>(list);
+                        newList.add(newStr);
+                        if (newStr.equals(endWord)) {
+                            result.add(newList);
+                            finalLevel = level;
+                        } else {
+                            queue.add(newList);
+                        }
+                    }
+                }
+                arr[i] = original;
+            }
+        }
+        return result;
+    }
+
     public static void main(String[] args) {
         Solution solution = new Solution();
         List<String> wordList = Arrays.asList("hot","dot","dog","lot","log","cog");
@@ -125,7 +170,7 @@ public class Solution {
         List<String> wordList2 = new ArrayList<>(Arrays.asList("ted","tex","red","tax","tad","den","rex","pee"));
 
 
-        System.out.println(solution.findLadders("red", "tax",
+        System.out.println(solution.findLadders2("red", "tax",
                 wordList2).stream().collect(Collectors.toList()));
     }
 
